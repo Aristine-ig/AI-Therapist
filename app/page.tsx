@@ -3,7 +3,9 @@
 import { Ripple } from "@/components/magicui/ripple";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Waves } from "lucide-react";
+import { ArrowRight, Waves } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
     const emotions = [
@@ -80,8 +82,8 @@ export default function Home() {
                                     <div
                                         key={em.value}
                                         className={`transition-all duration-500 ease-out cursor-pointer hover:scale-105 ${Math.abs(emotion - em.value) < 15
-                                                ? "opacity-100 scale-110 transform-gpu"
-                                                : "opacity-50 scale-100"
+                                            ? "opacity-100 scale-110 transform-gpu"
+                                            : "opacity-50 scale-100"
                                             }`}
                                         onClick={() => setEmotion(em.value)}
                                     >
@@ -95,9 +97,65 @@ export default function Home() {
                                 ))}
                             </div>
                         </div>
+
+                        {/* Enhanced slider with dynamic gradient */}
+                        <div className="relative px-2">
+                            <div
+                                className={`absolute inset-0 bg-gradient-to-r ${currentEmotion.color} to-transparent blur-2xl -z-10 transition-all duration-500`}
+                            />
+                            <Slider
+                                value={[emotion]}
+                                onValueChange={(value) => setEmotion(value[0])}
+                                min={0}
+                                max={100}
+                                step={1}
+                                className="py-4"
+                            />
+                        </div>
+
+                        <div className="text-center">
+                            <p className="text-sm text-muted-foreground animate-pulse">
+                                Slide to express how you&apos;re feeling today
+                            </p>
+                        </div>
                     </motion.div>
 
+                    {/* Enhanced CTA button and welcome dialog */}
+                    <motion.div
+                        className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 20 }}
+                        transition={{ delay: 0.2, duration: 0.8 }}
+                    >
+                        <Button
+                            size="lg"
+                            className="relative group h-12 px-8 rounded-full bg-gradient-to-r from-primary via-primary/90 to-secondary hover:to-primary shadow-lg shadow-primary/20 transition-all duration-500 hover:shadow-xl hover:shadow-primary/30"
+                        >
+                            <span className="relative z-10 font-medium flex items-center gap-2">
+                                Begin Your Journey
+                                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                            </span>
+                            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-size-200 bg-pos-0 group-hover:bg-pos-100" />
+                        </Button>
+                    </motion.div>
                 </motion.div>
+            </section>
+
+            {/* Enhanced Features Grid */}
+            <section className="relative py-20 px-4 overflow-hidden">
+                {/* <div className="absolute inset-0 bg-gradient-to-b from-background via-background/50 to-background" /> */}
+
+                <div className="max-w-6xl mx-auto">
+                    <motion.div className="text-center mb-16 space-y-4 text-white ">
+                        <h2 className="text-3xl font-bold bg-gradient-to-r from-primary/90 to-primary bg-clip-text text-transparent dark:text-primary/90">
+                            How NeuroCare Helps You
+                        </h2>
+                        <p className="text-foreground dark:text-foreground/95 max-w-2xl mx-auto font-medium text-lg">
+                            Experience a new kind of emotional support, powered by empathetic
+                            AI
+                        </p>
+                    </motion.div>
+                </div>
             </section>
         </div>
     );
